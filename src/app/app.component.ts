@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { LocalStorageService } from './core/service/local-storage.service';
+import { AuthService } from './core/service/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +10,10 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = '';
+  private auth = inject(AuthService)
+  private storage = inject(LocalStorageService)
+
+  ngOnInit(): void {
+    this.auth.loadToken(this.storage.getData('token'))
+  }
 }
